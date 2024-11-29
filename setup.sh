@@ -27,4 +27,4 @@ project_name=${1:-hello-nuxt}
 
 docker run -v $(pwd):/app -w /app --rm -it node:20.18.1-slim  bash -c "npm install -g pnpm && pnpm dlx nuxi@latest init ${project_name}"
 
-sudo chown -R `id -u -n`:`id -g -n` $project_name
+sudo chown -R `id -u -n`:`id -g -n` $project_name .
