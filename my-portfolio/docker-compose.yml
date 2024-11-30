@@ -5,5 +5,18 @@ services:
       context: .
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app
+    develop:
+      watch:
+        - path:  ./server
+          target: /app/server
+          action:  sync
+        - path: ./public
+          target: /app/public
+          action: sync
+        - path: ./package.json
+          action: rebuild
+        - path:  ./app.vue
+          target: /app/app.vue
+          action:  sync
