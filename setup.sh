@@ -1,13 +1,13 @@
 #!/bin/bash
-set -e
+set -ex
 
-# Check if the script is run as root
-if [[ $EUID -ne 0 ]]; then
-    tput setaf 1
-    echo "Please run as root"
-    exec sudo "$0" "$@"
-    tput sgr0
-fi
+# # Check if the script is run as root
+# if [[ $EUID -ne 0 ]]; then
+#     tput setaf 1
+#     echo "Please run as sudo"
+#     exec sudo "$0" "$@"
+#     tput sgr0
+# fi
 
 show_usage() {
     tput setaf 2
@@ -27,4 +27,10 @@ project_name=${1:-hello-nuxt}
 
 docker run -v $(pwd):/app -w /app --rm -it node:20.18.1-slim  bash -c "npm install -g pnpm && pnpm dlx nuxi@latest init ${project_name}"
 
+tput setaf 2
 sudo chown -R `id -u -n`:`id -g -n` $project_name .
+cp docker-compose.yml Dockerfile ${project_name}
+
+tput sgr0 # reset text attributes to default
+
+cd $project_name && docker compose up -d
